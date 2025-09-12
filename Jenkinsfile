@@ -32,6 +32,7 @@ pipeline {
             steps {
                 echo 'building application jar...'
                 buildJar()
+                sh 'mvn clean package'
             }
         }
         stage('build image') {
