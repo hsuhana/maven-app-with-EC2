@@ -24,7 +24,7 @@ pipeline {
                         versions:commit'
                     def matcher = readFile('pom.xml') =~ '<version>(.+)</version>'
                     def version = matcher[0][1]
-                    env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+                    env.IMAGE_NAME = "tracyhsu57/my-app:${version}-${BUILD_NUMBER}"
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
                 script {
                     echo 'deploying docker image to EC2...'
 
-                    def shellCmd = "bash ./server-cmds.sh tracyhsu57/my-app:${IMAGE_NAME}"
+                    def shellCmd = "bash ./server-cmds.sh tracyhsu57/my-app:${env.IMAGE_NAME}"
                     def ec2Instance = "ec2-user@3.99.128.85"
                     
                     sshagent(['ec2-server-key']){
@@ -74,6 +74,9 @@ pipeline {
         stage('commit version update'){
             steps {
                 script {
+                    sh 'git config user.email "jenkins@yourcompany.com"'
+                    sh 'git config user.name "Jenkins"'
+
                     withCredentials([usernamePassword(credentialsId: 'github-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]){
                         sh 'git remote set-url origin https://$USER:$PASS@github.com/hsuhana/maven-app-with-EC2.git'
                         sh 'git add .'
