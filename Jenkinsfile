@@ -2,13 +2,6 @@
 
 @Library('jenkins-shared-library@master')_
 
-// library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
-//     [$class: 'GitSCMSource',
-//     remote: 'https://github.com/hsuhana/jenkins-shared-library-ec2.git',
-//     credentialsID: 'github-repo'
-//     ]
-// )
-
 pipeline {
     agent any
     tools {
@@ -58,16 +51,6 @@ pipeline {
                         sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
                         sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
                     }
-
-
-                    // def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
-                    // def ec2Instance = "ec2-user@18.184.54.160"
-
-                    // sshagent(['ec2-server-key']) {
-                    //     sh "scp server-cmds.sh ${ec2Instance}:/home/ec2-user"
-                    //     sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
-                    //     sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
-                    // }
                 }
             }               
         }
