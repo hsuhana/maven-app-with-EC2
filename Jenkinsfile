@@ -50,7 +50,7 @@ pipeline {
                 script {
                     echo 'deploying docker image to EC2...'
 
-                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
+                    def shellCmd = "bash ./server-cmds.sh tracyhsu57/my-app:${IMAGE_NAME}"
                     def ec2Instance = "ec2-user@3.99.128.85"
                     
                     sshagent(['ec2-server-key']){
